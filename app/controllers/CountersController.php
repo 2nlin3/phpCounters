@@ -12,19 +12,21 @@ class CountersController extends Controller
 
         $id = empty($_REQUEST['counterid']) ? 0 : strval($_REQUEST['counterid']);
         $data = $this->model->GetDataJsonDB('counters', $id);
+        $error = '';
 
         if(empty($data['find']))
         {
-            $result = 'counter not found';
+            $error = 'counter not found';
         }
         elseif(!isset($_SESSION['login']))
         {
-            $result = 'user not found';
+            $error = 'user not found';
         }
         elseif($this->model->checkAclCounter($_SESSION['login'], $data['find']))
         {
             $data['counts'] = empty($data['counts']) ? 1 : intval($data['counts']) + 1;
             $data['lastTime'] = time();
+
             $result = $this->model->AddArrayJsonDB(
                 'counters',
                 array($id => $data)
@@ -32,12 +34,15 @@ class CountersController extends Controller
         }
         else
         {
-            $result = 'User permission not found';
+            $error = 'User permission not found';
         }
 
 		$vars = [
 			//'info' => $data,
-			'result' => isset($result) ? $result : false,
+            'error' => $error,
+            'type' => !empty($error) ? 'error' : 'success',
+			'msg' => !empty($result) ? $this->lang['ADD_USER_COUNT'] : '',
+            'page_update' => !empty($_SERVER['HTTP_REFERER']) ? "$fn?page=admin" : ''
 		];
 
 		$this->view->renderJson($vars);

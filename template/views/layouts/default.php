@@ -38,7 +38,7 @@
 		<noscript>
 			<style>@media screen and (max-height:600px){body #wrap_preloader{padding-top:120px;}}@media screen and (max-height:300px){body #wrap_preloader{padding-top:30px;}}@media screen and (max-height:550px){body #wrap_preloader{font-size:17px;}}@media screen and (max-width:700px){body #wrap_preloader{padding-top:50px;}body #wrap_preloader{font-size:17px;}}</style>
 			<br clear="all">
-			<span class="text-white">Пжалуйста включите JavaScript</span>
+			<span class="text-white">Pleace enable JavaScript</span>
 		</noscript>
 	</div>
 
@@ -46,8 +46,9 @@
 	<div class="container" id="content" style="position:relative;z-index:4;">
 		<?=$content?>
    </div>
+   <div id="popupModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 
 	<script src="/template/js/nprogress.js"></script>
-	<script src="/template/js/script.js"></script>
+	<script src="/template/js/script.js?0"></script>
 </body>
 </html>

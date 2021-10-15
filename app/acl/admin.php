@@ -5,12 +5,13 @@ return [
 		//
 	],
 	'authorize' => [
-		//
+		'index',
 	],
 	'guest' => [
 		//
 	],
 	'admin' => [
-		'index'
+		'edit',
+		'save'
 	],
 ];

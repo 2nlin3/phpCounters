@@ -12,7 +12,7 @@
 			<p class="text-white">
 				<b><?=$this->lang['LOGIN']?></b>: <?=$_SESSION['login']?><br>
 				<b><?=$this->lang['NAME']?></b>: <?=$_SESSION['name']?><br>
-				<b><?=$this->lang['ADMIN']?></b>: <?=!empty($_SESSION['admin']) ? '<a href="' . $this->cfg['fn'] . '?page=admin">link</a>' : 'false'?>
+				<b><?=$this->lang['ADMIN']?></b>: <a href="<?=$this->cfg['fn']?>?page=admin">link</a>
 				<form id="formLogout" action="<?=$fn?>?ajax=logout" method="post">
 					<input class="btn btn-sm btn-danger" form="formLogout" type="submit" value="<?=$this->lang['EXIT']?>">
 				</form>

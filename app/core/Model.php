@@ -74,4 +74,13 @@ abstract class Model
 
 		return $createUser;
 	}
+
+	public function Delete($dbName, $id)
+	{
+		$this->ConnectJsonDB($dbName);
+
+		$result = $this->jsonDB->Delete($id);
+
+		return $result;
+	}
 }

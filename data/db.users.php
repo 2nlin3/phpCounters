@@ -47,5 +47,11 @@
         "salt": "6163f76549116",
         "email": "demon@vpn.by",
         "name": "\u0412\u0438\u0442\u0430\u043b\u044f"
+    },
+    "Vital1": {
+        "password": "494d3e23dbe2cade3a44aeaa4a3716a3",
+        "salt": "61697fa19bce6",
+        "email": "vds911@ya.ru",
+        "name": "Vital"
     }
 }

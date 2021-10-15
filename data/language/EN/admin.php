@@ -1,5 +1,6 @@
 <?php
 
 return [
-	'INDEX'			=> 'Manage counters',
+	'INDEX'			=> 'Counters',
+	'EDIT'			=> 'Edit',
 ];

@@ -52,7 +52,7 @@ class jsonDataBase
 
 		if(!empty($error))
 		{
-			//throw new \Exception('Error: ' . var_export($error, 1));
+			throw new \Exception('Error: ' . var_export($error, 1));
 		}
 
 		$this->data = isset($check) ? $check : array();
@@ -85,7 +85,7 @@ class jsonDataBase
 
 	public function Create($user)
 	{
-		$this->data = array_merge((array) $this->data, array(
+		$this->data = array_merge($this->data, array(
 			$user['login'] => array(
 				'password'	=> $user['password'],
 				'salt' => $this->generateSalt(),
@@ -101,7 +101,14 @@ class jsonDataBase
 
 	public function AddArray($array)
 	{
-		$this->data = array_merge((array) $this->data, $array);
+		if(!empty($this->data))
+		{
+			$this->data = array_merge($this->data, $array);
+		}
+		else
+		{
+			$this->data = $array;
+		}
 
 		$this->Save();
 
@@ -123,9 +130,20 @@ class jsonDataBase
 	   
 	}
 
-	public function Delete($user)
+	public function Delete($id)
 	{
-		
+		if(!empty($this->data[$id]))
+		{
+			$array = $this->data;
+
+			unset($array[$id]);
+
+			$this->data = $array;
+
+			$this->Save();
+		}
+
+		return true;
 	}
 
 	private function Save()

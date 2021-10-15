@@ -62,6 +62,16 @@ return [
 		'action' => 'error',
 	],
 
+	'\?page=admin&edit=(.*)' => [
+		'controller' => 'admin',
+		'action' => 'edit',
+	],
+
+	'\?page=admin&save' => [
+		'controller' => 'admin',
+		'action' => 'save',
+	],
+
 	'\?page=admin(.*)' => [
 		'controller' => 'admin',
 		'action' => 'index',

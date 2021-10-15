@@ -235,9 +235,12 @@ function form_submit_ajax(form_data, link_url){
 					timeout: 120000,
 					progressBar: true
 				}).show();
-	
+
+				NProgress.done();
 			},
 		}).done(function(s){
+			NProgress.done();
+
 			try
 			{
 				var r = JSON.parse(s);
@@ -252,7 +255,7 @@ function form_submit_ajax(form_data, link_url){
 				r['msg'] = e.name + "<br>" + e.message + "<hr>" + s;
 			}
 
-			text = (r["error"] != "" ? r["error"] : "") + r["msg"];
+			text = (r["error"] != "" ? r["error"] + " " : "") + r["msg"];
 
 			new Noty({
 				type: r["type"],
@@ -294,7 +297,7 @@ function form_submit_ajax(form_data, link_url){
 		e.preventDefault();
 		NProgress.start();
 
-		var sendData = $("#" + form_data).serialize(); sendData += "&test=test";
+		var sendData = $("#" + form_data).serialize();
 
 		console.log(e.currentTarget.action);
 
@@ -422,6 +425,95 @@ function form_submit_ajax(form_data, link_url){
 		});
 	});
 };
+
+function showModal(url, method, data, itemID, noCache)
+{
+	url = typeof url == "undefined" ? "" : url;
+	method = typeof method == "undefined" ? "GET" : method;
+	data = typeof data == "undefined" ? "" : data;
+	itemID = typeof itemID == "undefined" ? "" : itemID;
+	noCache = typeof noCache == "undefined" ? false : noCache;
+	dataID = $("a:focus").data('id');
+
+	if(itemID != "") dataID = "popupModal-" + itemID;
+	else if(dataID == null || dataID == undefined || dataID.length == 0) dataID = "popupModal";
+
+	NProgress.start();
+
+	if(!noCache && dataID != 'popupModal' && $("#" + dataID).length > 0)
+	{
+		$('#' + dataID).modal("show");
+		//console.log('modal: cache ' + dataID);
+		NProgress.done();
+
+		$(".modalWindow.modal.fade").each(function(k, v){
+			let z = $('#' + dataID).css('z-index'); z = parseInt(z) - 1;
+
+			$('#' + $(v).attr('id')).css({
+				'z-index': 9999
+			});
+		});
+
+		let z = $('#' + dataID).css('z-index'); z = parseInt(z) + 1;
+
+		$('#' + dataID).css({
+			'z-index': z
+		});
+
+		$('.nav-md.modal-open').css('padding-right', '0');
+
+		return false;
+	}
+
+	$.ajax({
+		url: url,
+		async: true,
+		method: method,
+		data: data,
+		error:function(jqXHR, s, e){
+			$('#' + dataID).hide();
+		},
+		success: function(text){
+			if($("#" + dataID).length == 0)
+			{
+				$("body").append('<div id="' + dataID + '" class="modalWindow modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>');
+				$('#' + dataID).html(text);
+				$('#' + dataID).modal("show");
+				//console.log('modal: new ' + dataID);
+			}
+			else
+			{
+				$('#' + dataID).html(text);
+				$('#' + dataID).modal("show");
+				//console.log('modal: old ' + dataID);
+			}
+		}
+	}).done(function(){
+		NProgress.done();
+
+		$(".modalWindow.modal.fade").each(function(k, v){
+			let z = $('#' + dataID).css('z-index'); z = parseInt(z) - 1;
+
+			$('#' + $(v).attr('id')).css({
+				'z-index': 9999
+			});
+		});
+
+		let z = $('#' + dataID).css('z-index'); z = parseInt(z) + 1;
+
+		$('#' + dataID).css({
+			'z-index': z
+		});
+
+		$('.nav-md.modal-open').css('padding-right', '0');
+
+		setTimeout(function(){
+			$('[data-toggle="tooltip"]').tooltip();
+		}, 350);
+	});
+
+	return false;
+}
 
 $(document).ready(function($){
     //ссылки открываю через аякс
